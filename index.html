@@ -15,29 +15,26 @@
     :root {
       --primary: #28c49e;
       --primary-hover: #22ad8b;
-      --primary-soft: rgb(40 196 158 / 0.1);
+      --primary-soft: rgb(40 196 158 / 0.12);
       --text-primary: #001625;
       --text-secondary: #6d6f77;
-      --stale-gray: #f1f5f9;
       --card: #ffffff;
-      --muted: #f5f5f5;
-      --border: #ebebeb;
-      --shadow: 0 18px 50px rgba(7, 27, 58, 0.12);
-      --radius: 10px;
-      --radius-card: 24px;
+      --muted: #f1f5f9;
+      --border: #e8eaee;
+      --shadow: 0 2px 10px rgba(7, 27, 58, 0.06);
+      --shadow-hover: 0 10px 28px rgba(7, 27, 58, 0.12);
       color-scheme: light;
     }
 
     * { box-sizing: border-box; }
-    html { background: #fcfcfe; }
     body {
       margin: 0;
       min-height: 100svh;
       background: #fcfcfe;
       color: var(--text-primary);
       font-family: Geist, ui-sans-serif, system-ui, sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 15px;
+      line-height: 1.4;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -45,149 +42,179 @@
     .bg {
       position: fixed; inset: 0;
       pointer-events: none;
-      background: url("assets/fondo-mobile.svg") center / cover no-repeat;
-    }
-    @media (min-width: 1024px) {
-      .bg { background-image: url("assets/fondo-desktop.svg"); }
+      background: url("assets/fondo-mobile.svg") center top / cover no-repeat;
     }
 
-    main {
+    /* El "perfil": en celular ocupa la pantalla; en desktop es una tarjeta centrada */
+    .profile {
       position: relative;
-      max-width: 440px;
+      max-width: 580px;
+      min-height: 100svh;
       margin: 0 auto;
-      padding: 16px 20px 48px;
+      padding: 16px 20px 40px;
+    }
+    @media (min-width: 720px) {
+      .bg {
+        background-image: url("assets/fondo-desktop.svg");
+        filter: saturate(0.9);
+      }
+      .bg::after {
+        content: ""; position: absolute; inset: 0;
+        background: rgb(0 22 37 / 0.18);
+      }
+      .profile {
+        min-height: auto;
+        margin: 36px auto;
+        padding: 24px 28px 40px;
+        border-radius: 32px;
+        background: rgb(252 252 254 / 0.82);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow: 0 30px 80px rgba(7, 27, 58, 0.25);
+      }
     }
 
-    /* Logo: mismo armado que components/splitit-logo.tsx */
-    .logo-pill {
-      display: inline-flex; align-items: center;
-      height: 68px;
-      padding: 11px 16px;
+    /* Barra superior: logo y compartir */
+    .topbar { display: flex; justify-content: space-between; align-items: center; }
+    .chip {
+      height: 44px; min-width: 44px;
+      display: inline-grid; place-items: center;
+      padding: 0 10px;
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-    }
-    .logo {
-      display: inline-flex; align-items: center;
-      font-size: 24px; line-height: 1.15; font-weight: 800;
-      white-space: nowrap;
-    }
-    .logo .split {
-      display: inline-flex; align-items: center;
-      height: 34px;
-      padding: 0 2px 0 4px;
-      background: var(--primary);
-      border-radius: 8px;
-      color: #fff;
-    }
-    .logo .it { color: #000; }
-
-    /* Hero */
-    .hero { padding: 72px 0 32px; }
-    h1 {
-      margin: 0;
-      max-width: 320px;
-      font-size: 36px;
-      line-height: 1.15;
-      font-weight: 800;
-    }
-    .lead { margin: 16px 0 0; max-width: 350px; color: #000; }
-    .meta { margin: 6px 0 0; font-size: 12px; font-weight: 500; color: var(--text-secondary); }
-
-    .btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      height: 48px;
-      margin-top: 24px;
-      padding: 0 16px;
-      background: var(--primary);
-      color: #fff;
-      border-radius: var(--radius);
-      font-size: 20px; font-weight: 500;
-      text-decoration: none;
-      transition: background-color 150ms ease;
-    }
-    .btn:hover { background: var(--primary-hover); }
-
-    /* Tarjetas: como la de "Saldo por integrante" de la landing */
-    .card {
-      margin-top: 16px;
-      padding: 20px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow);
-    }
-    .card h2 { margin: 0; font-size: 15px; font-weight: 900; line-height: 1.3; }
-    .card .sub { margin: 0; font-size: 12px; color: var(--text-secondary); }
-    .card ul { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-    .card h3 { margin: 16px 0 0; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
-    .card h3 + ul { margin-top: 8px; }
-
-    .row {
-      display: flex; align-items: center; gap: 12px;
-      margin: 0 -8px;
-      padding: 8px;
+      border: 0;
       border-radius: 14px;
-      color: inherit;
-      text-decoration: none;
-      transition: background-color 150ms ease;
-    }
-    a.row:hover { background: var(--stale-gray); }
-    .avatar {
-      flex: none;
-      width: 36px; height: 36px;
-      display: grid; place-items: center;
-      background: var(--muted);
-      border-radius: 999px;
-      font-size: 12px; font-weight: 900;
+      box-shadow: var(--shadow);
       color: var(--text-primary);
+      font: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: box-shadow 150ms ease, transform 150ms ease;
     }
-    .avatar.mint { background: var(--primary-soft); color: var(--primary); }
-    .text { flex: 1; min-width: 0; }
-    .name { display: block; font-size: 13px; font-weight: 900; }
-    .desc { display: block; font-size: 12px; color: var(--text-secondary); }
-    .go { flex: none; color: var(--primary); transition: transform 150ms ease; }
-    a.row:hover .go { transform: translateX(2px); }
+    .chip:hover { box-shadow: var(--shadow-hover); }
+    .mini-logo {
+      font-size: 13px; font-weight: 800; line-height: 1;
+      display: inline-flex; align-items: center;
+    }
+    .mini-logo .s {
+      background: var(--primary); color: #fff;
+      padding: 4px 2px 4px 3px; border-radius: 5px;
+    }
 
-    .pill {
-      flex: none;
-      display: inline-flex;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 10px; font-weight: 900;
-      background: var(--muted);
+    /* Cabecera del perfil */
+    .head { text-align: center; padding: 20px 0 28px; }
+    .avatar-xl {
+      width: 96px; height: 96px;
+      margin: 0 auto 16px;
+      display: grid; place-items: center;
+      background: var(--primary);
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: var(--shadow-hover);
+      color: #fff;
+      font-size: 44px; font-weight: 900;
+    }
+    h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+    .bio { margin: 6px auto 0; max-width: 340px; font-size: 15px; color: var(--text-primary); }
+    .meta { margin: 4px 0 0; font-size: 13px; color: var(--text-secondary); }
+
+    /* Botones de link, al estilo Linktree */
+    .links { display: flex; flex-direction: column; gap: 14px; }
+    .label {
+      margin: 18px 0 -2px;
+      text-align: center;
+      font-size: 13px; font-weight: 700;
       color: var(--text-secondary);
     }
-    .pending .avatar, .pending .text { opacity: 0.5; }
-
-    /* Equipo */
-    .socials { display: flex; gap: 2px; flex: none; }
-    .social {
-      width: 32px; height: 32px;
+    .link {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 64px;
+      padding: 10px 60px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      color: var(--text-primary);
+      text-align: center;
+      text-decoration: none;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    a.link:hover { transform: scale(1.02); box-shadow: var(--shadow-hover); }
+    .link .t { display: block; font-weight: 700; }
+    .link .d { display: block; font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
+    .link .ic {
+      position: absolute; left: 10px; top: 50%; translate: 0 -50%;
+      width: 44px; height: 44px;
       display: grid; place-items: center;
-      border-radius: 999px;
+      border-radius: 12px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .link .end {
+      position: absolute; right: 18px; top: 50%; translate: 0 -50%;
+      color: var(--text-secondary);
+    }
+
+    .link.primary { background: var(--primary); color: #fff; }
+    .link.primary .ic { background: rgb(255 255 255 / 0.2); color: #fff; }
+    .link.primary .d { color: rgb(255 255 255 / 0.85); }
+    .link.primary .end { color: #fff; }
+    a.link.primary:hover { background: var(--primary-hover); }
+
+    .link.pending { cursor: default; }
+    .link.pending .t, .link.pending .ic { opacity: 0.5; }
+    .pill {
+      font-size: 11px; font-weight: 800;
+      padding: 3px 8px; border-radius: 999px;
+      background: var(--muted); color: var(--text-secondary);
+    }
+
+    /* Equipo: un botón por persona, con sus redes a la derecha */
+    .person { justify-content: flex-start; padding: 10px 12px 10px 10px; min-height: 60px; }
+    .initial {
+      flex: none;
+      width: 40px; height: 40px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: var(--muted);
+      font-size: 13px; font-weight: 900;
+    }
+    .dev .initial { background: var(--primary-soft); color: var(--primary); }
+    .person .t { flex: 1; text-align: left; margin-left: 12px; }
+    .socials { display: flex; gap: 2px; }
+    .social {
+      width: 38px; height: 38px;
+      display: grid; place-items: center;
+      border-radius: 50%;
       color: var(--text-secondary);
       transition: background-color 150ms ease, color 150ms ease;
     }
-    a.social:hover { background: var(--primary-soft); color: var(--primary); }
-    span.social { opacity: 0.3; }
+    .social:hover { background: var(--primary-soft); color: var(--primary); }
 
-    a:focus-visible {
-      outline: 3px solid rgb(40 196 158 / 0.45);
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid rgb(40 196 158 / 0.5);
       outline-offset: 2px;
     }
 
     footer {
-      margin-top: 32px;
+      margin-top: 36px;
       text-align: center;
-      font-size: 12px; font-weight: 500;
+      font-size: 12px;
       color: var(--text-secondary);
     }
+    footer .mini-logo { font-size: 12px; margin-bottom: 6px; }
 
-    @media (min-width: 1024px) {
-      .hero { padding-top: 96px; }
-      h1 { font-size: 44px; max-width: none; }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px;
+      translate: -50% 20px;
+      padding: 10px 16px;
+      background: var(--text-primary); color: #fff;
+      border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 200ms ease, translate 200ms ease;
     }
+    .toast.show { opacity: 1; translate: -50% 0; }
+
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; }
     }
@@ -199,182 +226,158 @@
   <!-- Íconos (Lucide, como en la app) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8z"/></symbol>
       <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></symbol>
       <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l6-3v10l-6-3"/></symbol>
       <symbol id="i-slides" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M12 17v4M8 21h8"/></symbol>
       <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4M9 13v2M15 13v2M2 14h2M20 14h2"/></symbol>
       <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol>
       <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
-      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
       <symbol id="i-github" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
       <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
     </defs>
   </svg>
 
-  <main>
-    <header>
-      <div class="logo-pill">
-        <span class="logo" role="img" aria-label="SplitIt"><span class="split">Split</span><span class="it">It</span></span>
-      </div>
+  <main class="profile">
+    <div class="topbar">
+      <a class="chip" href="https://splitit-lab.vercel.app/" target="_blank" rel="noopener" aria-label="Ir a SplitIt">
+        <span class="mini-logo"><span class="s">Split</span>It</span>
+      </a>
+      <button class="chip" id="share" type="button" aria-label="Compartir esta página">
+        <svg width="18" height="18"><use href="#i-share"/></svg>
+      </button>
+    </div>
+
+    <header class="head">
+      <div class="avatar-xl" aria-hidden="true">$</div>
+      <h1>SplitIt</h1>
+      <p class="bio">Gastos compartidos, sin complicaciones.</p>
+      <p class="meta">Laboratorio IV · Dirección de Proyectos · 2026</p>
     </header>
 
-    <section class="hero">
-      <h1>Todo SplitIt en un solo lugar.</h1>
-      <p class="lead">Gastos compartidos, sin complicaciones. La app, el diseño, la gestión y el equipo detrás del proyecto.</p>
-      <p class="meta">Laboratorio IV · Dirección de Proyectos · 2026</p>
-      <a class="btn" href="https://splitit-lab.vercel.app/" target="_blank" rel="noopener">
-        Probar SplitIt
-        <svg width="24" height="24"><use href="#i-arrow"/></svg>
+    <nav class="links" aria-label="Links del proyecto">
+      <a class="link primary" href="https://splitit-lab.vercel.app/" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-play"/></svg></span>
+        <span><span class="t">Probar SplitIt</span><span class="d">La app, en vivo</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
       </a>
-    </section>
 
-    <section class="card">
-      <h2>Producto</h2>
-      <p class="sub">Cómo se ve y cómo funciona</p>
-      <ul>
-        <li>
-          <a class="row" href="https://splitit-canvas.vercel.app/canvas" target="_blank" rel="noopener">
-            <span class="avatar mint"><svg width="18" height="18"><use href="#i-layout"/></svg></span>
-            <span class="text"><span class="name">Canvas de pantallas</span><span class="desc">Todas las pantallas, una por historia</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-        <li>
-          <!-- Pendiente: cuando esté el video, cambiar este div por un <a class="row" href="..."> y la pill por la flecha -->
-          <div class="row pending" aria-disabled="true">
-            <span class="avatar"><svg width="18" height="18"><use href="#i-video"/></svg></span>
-            <span class="text"><span class="name">Video de demo</span><span class="desc">La app de punta a punta</span></span>
-            <span class="pill">pronto</span>
-          </div>
-        </li>
-      </ul>
-    </section>
+      <p class="label">Producto</p>
+      <a class="link" href="https://splitit-canvas.vercel.app/canvas" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-layout"/></svg></span>
+        <span><span class="t">Canvas de pantallas</span><span class="d">Una pantalla por historia</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
+      <!-- Pendiente: cuando esté el video, cambiar este div por un <a class="link" href="..."> y la pill por la flecha -->
+      <div class="link pending" aria-disabled="true">
+        <span class="ic"><svg width="20" height="20"><use href="#i-video"/></svg></span>
+        <span><span class="t">Video de demo</span></span>
+        <span class="end pill">pronto</span>
+      </div>
+      <a class="link" href="deck-lab-iv.pdf" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-slides"/></svg></span>
+        <span><span class="t">Deck Lab IV</span><span class="d">La presentación del proyecto · PDF</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
 
-    <section class="card">
-      <h2>Presentación</h2>
-      <p class="sub">El proyecto en diapositivas</p>
-      <ul>
-        <li>
-          <a class="row" href="deck-lab-iv.pdf" target="_blank" rel="noopener">
-            <span class="avatar mint"><svg width="18" height="18"><use href="#i-slides"/></svg></span>
-            <span class="text"><span class="name">Deck Lab IV</span><span class="desc">Idea, visión, alcance, stack y equipo · PDF</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-      </ul>
-    </section>
+      <p class="label">Gestión</p>
+      <a class="link" href="https://splitit-agents.vercel.app/" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-bot"/></svg></span>
+        <span><span class="t">PM Agents</span><span class="d">Del estado del proyecto a la próxima acción</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="link" href="https://github.com/lab4-kpis/kpis" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-chart"/></svg></span>
+        <span><span class="t">KPIs de la cátedra</span><span class="d">Métricas compartidas entre equipos</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
 
-    <section class="card">
-      <h2>Gestión</h2>
-      <p class="sub">Cómo seguimos el proyecto</p>
-      <ul>
-        <li>
-          <a class="row" href="https://splitit-agents.vercel.app/" target="_blank" rel="noopener">
-            <span class="avatar mint"><svg width="18" height="18"><use href="#i-bot"/></svg></span>
-            <span class="text"><span class="name">PM Agents</span><span class="desc">Del estado del proyecto a la próxima acción</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://github.com/lab4-kpis/kpis" target="_blank" rel="noopener">
-            <span class="avatar mint"><svg width="18" height="18"><use href="#i-chart"/></svg></span>
-            <span class="text"><span class="name">KPIs de la cátedra</span><span class="desc">Métricas compartidas entre los equipos</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-      </ul>
-    </section>
+      <p class="label">Código</p>
+      <a class="link" href="https://github.com/SplitItLab/SplitIt" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-code"/></svg></span>
+        <span><span class="t">App</span><span class="d">SplitItLab/SplitIt</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="link" href="https://github.com/n-mangini/splitit-canvas" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-code"/></svg></span>
+        <span><span class="t">Canvas</span><span class="d">n-mangini/splitit-canvas</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="link" href="https://github.com/n-mangini/splitit-agents" target="_blank" rel="noopener">
+        <span class="ic"><svg width="20" height="20"><use href="#i-code"/></svg></span>
+        <span><span class="t">PM Agents</span><span class="d">n-mangini/splitit-agents</span></span>
+        <svg class="end" width="18" height="18"><use href="#i-arrow"/></svg>
+      </a>
 
-    <section class="card">
-      <h2>Código</h2>
-      <p class="sub">Repositorios en GitHub</p>
-      <ul>
-        <li>
-          <a class="row" href="https://github.com/SplitItLab/SplitIt" target="_blank" rel="noopener">
-            <span class="avatar"><svg width="18" height="18"><use href="#i-code"/></svg></span>
-            <span class="text"><span class="name">App</span><span class="desc">SplitItLab/SplitIt · Next.js y Spring Boot</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://github.com/n-mangini/splitit-canvas" target="_blank" rel="noopener">
-            <span class="avatar"><svg width="18" height="18"><use href="#i-code"/></svg></span>
-            <span class="text"><span class="name">Canvas</span><span class="desc">n-mangini/splitit-canvas</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://github.com/n-mangini/splitit-agents" target="_blank" rel="noopener">
-            <span class="avatar"><svg width="18" height="18"><use href="#i-code"/></svg></span>
-            <span class="text"><span class="name">PM Agents</span><span class="desc">n-mangini/splitit-agents</span></span>
-            <svg class="go" width="18" height="18"><use href="#i-arrow"/></svg>
-          </a>
-        </li>
-      </ul>
-    </section>
+      <p class="label">Management</p>
+      <div class="link person">
+        <span class="initial">M</span><span class="t">Marcos Hussey</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/husseymarcos" target="_blank" rel="noopener" aria-label="GitHub de Marcos Hussey"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/marcos-hussey/" target="_blank" rel="noopener" aria-label="LinkedIn de Marcos Hussey"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
+      <div class="link person">
+        <span class="initial">N</span><span class="t">Nicolás Mangini</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/n-mangini" target="_blank" rel="noopener" aria-label="GitHub de Nicolás Mangini"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/n-mangini/" target="_blank" rel="noopener" aria-label="LinkedIn de Nicolás Mangini"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
+      <div class="link person">
+        <span class="initial">F</span><span class="t">Francisco Manfredi</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/FranManfredi" target="_blank" rel="noopener" aria-label="GitHub de Francisco Manfredi"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/manfredi-francisco/" target="_blank" rel="noopener" aria-label="LinkedIn de Francisco Manfredi"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
+      <div class="link person">
+        <span class="initial">L</span><span class="t">Lucas Monteverdi</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/lucasmonteverdi1" target="_blank" rel="noopener" aria-label="GitHub de Lucas Monteverdi"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/lucasmonteverdi/" target="_blank" rel="noopener" aria-label="LinkedIn de Lucas Monteverdi"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
 
-    <section class="card">
-      <h2>Equipo</h2>
-      <p class="sub">Quiénes hicimos SplitIt</p>
+      <p class="label">Desarrollo</p>
+      <div class="link person dev">
+        <span class="initial">M</span><span class="t">Mateo Diaz</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/MateoDi9z" target="_blank" rel="noopener" aria-label="GitHub de Mateo Diaz"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/mateojdiaz/" target="_blank" rel="noopener" aria-label="LinkedIn de Mateo Diaz"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
+      <div class="link person dev">
+        <span class="initial">F</span><span class="t">Felicitas Ocampo</span>
+        <span class="socials">
+          <a class="social" href="https://github.com/OcampoFeli18" target="_blank" rel="noopener" aria-label="GitHub de Felicitas Ocampo"><svg width="18" height="18"><use href="#i-github"/></svg></a>
+          <a class="social" href="https://www.linkedin.com/in/felicitas-ocampo-75a255359/" target="_blank" rel="noopener" aria-label="LinkedIn de Felicitas Ocampo"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a>
+        </span>
+      </div>
+    </nav>
 
-      <h3>Management</h3>
-      <ul>
-        <li class="row">
-          <span class="avatar">M</span>
-          <span class="text name">Marcos Hussey</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/husseymarcos" target="_blank" rel="noopener" aria-label="GitHub de Marcos Hussey"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/marcos-hussey/" target="_blank" rel="noopener" aria-label="LinkedIn de Marcos Hussey"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-        <li class="row">
-          <span class="avatar">N</span>
-          <span class="text name">Nicolás Mangini</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/n-mangini" target="_blank" rel="noopener" aria-label="GitHub de Nicolás Mangini"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/n-mangini/" target="_blank" rel="noopener" aria-label="LinkedIn de Nicolás Mangini"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-        <li class="row">
-          <span class="avatar">F</span>
-          <span class="text name">Francisco Manfredi</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/FranManfredi" target="_blank" rel="noopener" aria-label="GitHub de Francisco Manfredi"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/manfredi-francisco/" target="_blank" rel="noopener" aria-label="LinkedIn de Francisco Manfredi"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-        <li class="row">
-          <span class="avatar">L</span>
-          <span class="text name">Lucas Monteverdi</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/lucasmonteverdi1" target="_blank" rel="noopener" aria-label="GitHub de Lucas Monteverdi"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/lucasmonteverdi/" target="_blank" rel="noopener" aria-label="LinkedIn de Lucas Monteverdi"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-      </ul>
-
-      <h3>Desarrollo</h3>
-      <ul>
-        <li class="row">
-          <span class="avatar mint">M</span>
-          <span class="text name">Mateo Diaz</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/MateoDi9z" target="_blank" rel="noopener" aria-label="GitHub de Mateo Diaz"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/mateojdiaz/" target="_blank" rel="noopener" aria-label="LinkedIn de Mateo Diaz"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-        <li class="row">
-          <span class="avatar mint">F</span>
-          <span class="text name">Felicitas Ocampo</span>
-          <span class="socials">
-            <a class="social" href="https://github.com/OcampoFeli18" target="_blank" rel="noopener" aria-label="GitHub de Felicitas Ocampo"><svg width="16" height="16"><use href="#i-github"/></svg></a>
-            <a class="social" href="https://www.linkedin.com/in/felicitas-ocampo-75a255359/" target="_blank" rel="noopener" aria-label="LinkedIn de Felicitas Ocampo"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
-          </span>
-        </li>
-      </ul>
-    </section>
-
-    <footer>SplitIt · Laboratorio IV · 2026</footer>
+    <footer>
+      <span class="mini-logo"><span class="s">Split</span>It</span><br>
+      Laboratorio IV · 2026
+    </footer>
   </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Link copiado</div>
+
+  <script>
+    // Compartir: usa el menú nativo si existe; si no, copia el link
+    document.getElementById('share').addEventListener('click', async () => {
+      const data = { title: 'SplitIt', url: location.href };
+      try {
+        if (navigator.share) { await navigator.share(data); return; }
+        await navigator.clipboard.writeText(location.href);
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 1800);
+      } catch (e) { /* el usuario canceló */ }
+    });
+  </script>
 </body>
 </html>
